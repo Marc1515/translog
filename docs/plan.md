@@ -1,0 +1,25 @@
+# Plan de desarrollo
+
+| Fase | Descripción | Estado |
+|------|-------------|--------|
+| 0 | Análisis de requisitos | Completada |
+| 1 | Diseño del dominio y arquitectura | Completada |
+| 2 | Monorepo y documentación | Completada |
+| 3 | Base de datos (PostgreSQL, Prisma) | Pendiente |
+| 4 | Autenticación y autorización | Pendiente |
+| 5 | Núcleo de envíos | Pendiente |
+| 6 | Reglas de dominio de envíos | Pendiente |
+| 7 | Tracking público | Pendiente |
+| 8 | Asignación de vehículos (FFD) | Pendiente |
+| 9 | Calidad del backend | Pendiente |
+| 10 | Base del frontend Angular | Pendiente |
+| 11 | Autenticación frontend | Pendiente |
+| 12 | Gestión de envíos frontend | Pendiente |
+| 13 | Detalle de envío frontend | Pendiente |
+| 14 | Tracking público frontend | Pendiente |
+| 15 | Integración y UX | Pendiente |
+| 16 | Bonus: Docker Compose y GitHub Actions | Pendiente |
+| 17 | Bonus: vehículos, dashboard, CSV | Pendiente |
+| 18 | Revisión independiente | Pendiente |
+| 19 | Pulido final | Pendiente |
+| 20 | Preparación de entrevista | Pendiente |
