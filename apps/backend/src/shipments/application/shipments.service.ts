@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -9,7 +10,9 @@ import {
   canCancelShipment,
   isValidTransition,
 } from '../domain/shipment-status-transitions.js';
+import { firstFitDecreasing } from '../domain/first-fit-decreasing.js';
 import { CreateShipmentDto } from '../presentation/dto/create-shipment.dto.js';
+import { AssignVehiclesDto } from '../presentation/dto/assign-vehicles.dto.js';
 import { ListShipmentsQueryDto } from '../presentation/dto/list-shipments-query.dto.js';
 import { UpdateShipmentStatusDto } from '../presentation/dto/update-shipment-status.dto.js';
 import { ShipmentsRepository } from '../infrastructure/shipments.repository.js';
@@ -117,6 +120,42 @@ export class ShipmentsService {
     });
 
     return this.toShipmentResponse(updated);
+  }
+
+  async assignVehicles(dto: AssignVehiclesDto) {
+    const shipments = await this.shipmentsRepository.findByIds(dto.shipmentIds);
+
+    if (shipments.length !== dto.shipmentIds.length) {
+      throw new NotFoundException('Uno o más envíos no existen.');
+    }
+
+    const invalidStatus = shipments.find(
+      (shipment) => shipment.status !== ShipmentStatus.IN_WAREHOUSE,
+    );
+
+    if (invalidStatus) {
+      throw new ConflictException(
+        'Todos los envíos deben estar en estado IN_WAREHOUSE.',
+      );
+    }
+
+    for (const shipment of shipments) {
+      const weight = Number(shipment.weight);
+
+      if (weight > dto.vehicleCapacity) {
+        throw new BadRequestException(
+          `El envío ${shipment.trackingCode} pesa ${weight} kg y supera la capacidad del vehículo de ${dto.vehicleCapacity} kg.`,
+        );
+      }
+    }
+
+    const ffdInput = shipments.map((shipment) => ({
+      shipmentId: shipment.id,
+      trackingCode: shipment.trackingCode,
+      weight: Number(shipment.weight),
+    }));
+
+    return firstFitDecreasing(ffdInput, dto.vehicleCapacity);
   }
 
   async cancel(id: string, userId: string) {

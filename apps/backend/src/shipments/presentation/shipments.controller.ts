@@ -16,6 +16,7 @@ import {
 import type { AuthenticatedRequest } from '../../auth/types/authenticated-request.type.js';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard.js';
 import { ShipmentsService } from '../application/shipments.service.js';
+import { AssignVehiclesDto } from './dto/assign-vehicles.dto.js';
 import { CreateShipmentDto } from './dto/create-shipment.dto.js';
 import { ListShipmentsQueryDto } from './dto/list-shipments-query.dto.js';
 import { UpdateShipmentStatusDto } from './dto/update-shipment-status.dto.js';
@@ -34,6 +35,12 @@ export class ShipmentsController {
   @Get()
   findAll(@Query() query: ListShipmentsQueryDto) {
     return this.shipmentsService.findAll(query);
+  }
+
+  @Post('assign-vehicles')
+  @HttpCode(HttpStatus.OK)
+  assignVehicles(@Body() dto: AssignVehiclesDto) {
+    return this.shipmentsService.assignVehicles(dto);
   }
 
   @Get(':id')

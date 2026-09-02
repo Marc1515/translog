@@ -22,6 +22,8 @@
 
 **TrackingModule:** endpoint público `GET /tracking/:trackingCode` sin autenticación. Reutiliza `ShipmentsRepository` para consultar por `trackingCode` con eventos ordenados; el service mapea una respuesta pública sin datos internos de usuario.
 
-**ShipmentsModule:** `presentation` (controller + DTOs), `application` (service), `domain` (trackingCode, máquina de estados), `infrastructure` (repository Prisma).
+**ShipmentsModule:** `presentation` (controller + DTOs), `application` (service), `domain` (trackingCode, máquina de estados, FFD), `infrastructure` (repository Prisma).
+
+**Asignación FFD (Fase 8):** `POST /shipments/assign-vehicles` valida envíos en `IN_WAREHOUSE` desde PostgreSQL, convierte pesos `Decimal` a `number` y delega en `first-fit-decreasing.ts` (dominio puro, sin NestJS/Prisma). El resultado es una propuesta calculada; no se persisten vehículos ni se modifica el estado de los envíos. Detalle del algoritmo en [`decisiones-tecnicas.md`](decisiones-tecnicas.md).
 
 **Frontend:** carpetas por feature (`auth`, `shipments`, `tracking`) con lazy loading en rutas.

@@ -37,3 +37,15 @@ Componentes standalone, lazy loading por features, servicios HTTP, Route Guard e
 ## Modelado
 
 No se crean tablas `Vehicle`, `Warehouse` ni `Address`. El dominio se limita a `User`, `Shipment` y `ShipmentEvent`. Los vehículos del endpoint FFD son parámetros de entrada, no entidades persistidas.
+
+## Asignación FFD (Fase 8)
+
+**First Fit Decreasing** es una heurística de bin packing:
+
+1. Ordenar envíos por peso descendente.
+2. Para cada envío, colocarlo en el **primer** vehículo con capacidad suficiente.
+3. Si no cabe en ninguno, abrir un vehículo nuevo.
+
+No garantiza el número mínimo de vehículos (no es solución óptima). Complejidad aproximada: **O(n log n)** por la ordenación y **O(n²)** en el peor caso por la búsqueda first-fit.
+
+La API devuelve una propuesta con `vehicleNumber` (1-based), pesos redondeados a 2 decimales y totales globales. No hay persistencia de vehículos ni cambio de estado en los envíos.

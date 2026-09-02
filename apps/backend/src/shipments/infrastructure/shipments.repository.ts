@@ -69,6 +69,18 @@ export class ShipmentsRepository {
     });
   }
 
+  findByIds(ids: string[]) {
+    return this.prisma.shipment.findMany({
+      where: { id: { in: ids } },
+      select: {
+        id: true,
+        trackingCode: true,
+        weight: true,
+        status: true,
+      },
+    });
+  }
+
   findByIdWithEvents(id: string) {
     return this.prisma.shipment.findUnique({
       where: { id },

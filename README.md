@@ -52,12 +52,19 @@ Todos los endpoints requieren JWT (`Authorization: Bearer <token>`).
 - `GET /shipments/:id` — detalle con historial de eventos
 - `PATCH /shipments/:id/status` — cambiar estado (transiciones validadas, crea `ShipmentEvent`)
 - `DELETE /shipments/:id` — cancelación lógica (`CANCELED`, conserva historial)
+- `POST /shipments/assign-vehicles` — propuesta de asignación FFD (sin persistencia)
 
 ## Tracking público (Fase 7)
 
 Endpoint público (sin JWT):
 
 - `GET /tracking/:trackingCode` — consulta de envío por código de seguimiento con historial de eventos
+
+## Asignación de vehículos (Fase 8)
+
+Endpoint autenticado:
+
+- `POST /shipments/assign-vehicles` — calcula una distribución First Fit Decreasing a partir de envíos en `IN_WAREHOUSE`. Los vehículos no se persisten.
 
 ## Comandos
 
@@ -72,4 +79,4 @@ pnpm build          # compila backend y frontend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 7 completada (tracking público). Siguiente fase: asignación de vehículos FFD (Fase 8).
+**Estado actual:** Fase 8 completada (asignación FFD). Siguiente fase: calidad del backend (Fase 9).

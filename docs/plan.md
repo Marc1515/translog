@@ -10,8 +10,8 @@
 | 5 | Núcleo de envíos | Completada |
 | 6 | Reglas de dominio de envíos | Completada |
 | 7 | Tracking público | Completada |
-| 8 | Asignación de vehículos (FFD) | Siguiente |
-| 9 | Calidad del backend | Pendiente |
+| 8 | Asignación de vehículos (FFD) | Completada |
+| 9 | Calidad del backend | Siguiente |
 | 10 | Base del frontend Angular | Pendiente |
 | 11 | Autenticación frontend | Pendiente |
 | 12 | Gestión de envíos frontend | Pendiente |
