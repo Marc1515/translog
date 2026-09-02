@@ -65,6 +65,17 @@ describe('firstFitDecreasing', () => {
     expect(result.vehicles[0].remainingCapacity).toBe(66.67);
   });
 
+  it('fits 0.2 and 0.1 into one vehicle at capacity 0.3 without float drift', () => {
+    const input = [makeShipment('a', 0.2), makeShipment('b', 0.1)];
+
+    const result = firstFitDecreasing(input, 0.3);
+
+    expect(result.totalVehicles).toBe(1);
+    expect(result.totalShipments).toBe(2);
+    expect(result.vehicles[0].totalWeight).toBe(0.3);
+    expect(result.vehicles[0].remainingCapacity).toBe(0);
+  });
+
   it('does not mutate the input array', () => {
     const input = [
       makeShipment('x', 30),

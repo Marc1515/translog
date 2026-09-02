@@ -48,9 +48,13 @@ export function firstFitDecreasing(
     let placed = false;
 
     for (const vehicle of vehicles) {
-      if (vehicle.usedCapacity + shipment.weight <= vehicleCapacity) {
+      const nextUsedCapacity = roundToTwoDecimals(
+        vehicle.usedCapacity + shipment.weight,
+      );
+
+      if (nextUsedCapacity <= vehicleCapacity) {
         vehicle.shipments.push(shipment);
-        vehicle.usedCapacity += shipment.weight;
+        vehicle.usedCapacity = nextUsedCapacity;
         placed = true;
         break;
       }
