@@ -9,5 +9,6 @@ import { ShipmentsController } from './presentation/shipments.controller.js';
   imports: [PrismaModule, AuthModule],
   controllers: [ShipmentsController],
   providers: [ShipmentsService, ShipmentsRepository],
+  exports: [ShipmentsRepository],
 })
 export class ShipmentsModule {}

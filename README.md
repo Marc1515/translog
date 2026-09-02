@@ -53,6 +53,12 @@ Todos los endpoints requieren JWT (`Authorization: Bearer <token>`).
 - `PATCH /shipments/:id/status` — cambiar estado (transiciones validadas, crea `ShipmentEvent`)
 - `DELETE /shipments/:id` — cancelación lógica (`CANCELED`, conserva historial)
 
+## Tracking público (Fase 7)
+
+Endpoint público (sin JWT):
+
+- `GET /tracking/:trackingCode` — consulta de envío por código de seguimiento con historial de eventos
+
 ## Comandos
 
 ```bash
@@ -66,4 +72,4 @@ pnpm build          # compila backend y frontend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 6 completada (reglas de dominio de envíos). Siguiente fase: tracking público (Fase 7).
+**Estado actual:** Fase 7 completada (tracking público). Siguiente fase: asignación de vehículos FFD (Fase 8).

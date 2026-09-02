@@ -87,6 +87,23 @@ export class ShipmentsRepository {
     });
   }
 
+  findByTrackingCodeWithEvents(trackingCode: string) {
+    return this.prisma.shipment.findUnique({
+      where: { trackingCode },
+      include: {
+        events: {
+          orderBy: { createdAt: 'asc' },
+          select: {
+            status: true,
+            location: true,
+            notes: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+  }
+
   updateStatusWithEvent(params: {
     shipmentId: string;
     status: ShipmentStatus;
