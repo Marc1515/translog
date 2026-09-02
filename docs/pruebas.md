@@ -28,3 +28,21 @@ pnpm build:backend
 ## Criterio
 
 Cubrir reglas de negocio relevantes. No se persigue cobertura total.
+
+## Pruebas de integración
+
+Flujos comprobados en Fase 15 (smoke test manual + API):
+
+- **Autenticación:** login válido/incorrecto, persistencia de sesión tras refresh, logout, redirección sin sesión.
+- **Roles:** SUPERVISOR ve enlace «Registrar usuario» y accede a `/auth/register`; OPERATOR no ve enlace y el guard redirige desde register.
+- **Alta de usuario:** registro de operador, email duplicado (409), supervisor mantiene sesión.
+- **Create shipment:** validaciones, peso ≤ 0, teléfono opcional, Bearer en POST, `trackingCode` y estado `CREATED`.
+- **Listado:** columnas, paginación server-side (`page`/`limit`), filtro por status, reset a página 1 al cambiar filtro, empty state, error con backend caído.
+- **Detalle:** datos del envío, timeline con `responsibleUser.email`, sin `passwordHash`.
+- **Transiciones:** máquina de estados completa, location requerida (incl. solo espacios), reload tras PATCH.
+- **Cancelación:** confirmación, DELETE lógico, evento `CANCELED`, sin acciones posteriores.
+- **Tracking público:** sin Authorization, datos públicos, sin teléfono ni operadores; `deliveredAt` si entregado.
+- **Privacidad:** sin `passwordHash`, `createdById`, `contactPhone` ni `responsibleUser` en respuesta pública.
+- **Responsive:** revisión en 375px, 768px y desktop (overflow tabla, formularios).
+- **Errores HTTP:** mensajes legibles desde `message` del backend (400, 401, 403, 404, 409, conexión caída).
+- **Validación espacios:** tracking, email login/register, campos required de envío y location en transiciones.

@@ -48,12 +48,38 @@ export class ShipmentNewPage {
   errorMessage: string | null = null;
 
   onSubmit(): void {
+    if (this.loading) {
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
     const raw = this.form.getRawValue();
+    const originAddress = raw.originAddress?.trim() ?? '';
+    const destinationAddress = raw.destinationAddress?.trim() ?? '';
+    const recipientName = raw.recipientName?.trim() ?? '';
+
+    if (!originAddress) {
+      this.form.controls.originAddress.setErrors({ required: true });
+      this.form.controls.originAddress.markAsTouched();
+      return;
+    }
+
+    if (!destinationAddress) {
+      this.form.controls.destinationAddress.setErrors({ required: true });
+      this.form.controls.destinationAddress.markAsTouched();
+      return;
+    }
+
+    if (!recipientName) {
+      this.form.controls.recipientName.setErrors({ required: true });
+      this.form.controls.recipientName.markAsTouched();
+      return;
+    }
+
     const weight = Number(raw.weight);
 
     if (!Number.isFinite(weight) || weight <= 0) {
@@ -63,9 +89,9 @@ export class ShipmentNewPage {
     }
 
     const payload: CreateShipmentRequest = {
-      originAddress: raw.originAddress!.trim(),
-      destinationAddress: raw.destinationAddress!.trim(),
-      recipientName: raw.recipientName!.trim(),
+      originAddress,
+      destinationAddress,
+      recipientName,
       weight,
     };
 

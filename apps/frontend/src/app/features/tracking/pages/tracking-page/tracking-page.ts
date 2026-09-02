@@ -83,7 +83,8 @@ export class TrackingPage {
     const trackingCode = rawCode.trim().toUpperCase();
 
     if (!trackingCode) {
-      this.searchForm.markAllAsTouched();
+      this.searchForm.controls.trackingCode.setErrors({ required: true });
+      this.searchForm.controls.trackingCode.markAsTouched();
       return;
     }
 

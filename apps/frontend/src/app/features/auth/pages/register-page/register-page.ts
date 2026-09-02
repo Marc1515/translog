@@ -51,6 +51,19 @@ export class RegisterPage {
   errorMessage: string | null = null;
 
   onSubmit(): void {
+    if (this.loading) {
+      return;
+    }
+
+    const raw = this.form.getRawValue();
+    const email = raw.email.trim();
+
+    if (!email) {
+      this.form.controls.email.setErrors({ required: true });
+      this.form.controls.email.markAsTouched();
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -60,7 +73,7 @@ export class RegisterPage {
     this.errorMessage = null;
 
     this.authService
-      .register(this.form.getRawValue())
+      .register({ ...raw, email })
       .pipe(finalize(() => {
         this.loading = false;
         this.cdr.markForCheck();
