@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './features/auth/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
   },
   {
     path: 'shipments',
+    canMatch: [authGuard],
     loadChildren: () =>
       import('./features/shipments/shipments.routes').then(
         (m) => m.SHIPMENTS_ROUTES,

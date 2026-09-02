@@ -13,8 +13,8 @@
 | 8 | Asignación de vehículos (FFD) | Completada |
 | 9 | Calidad del backend | Completada |
 | 10 | Base del frontend Angular | Completada |
-| 11 | Autenticación frontend | Siguiente |
-| 12 | Gestión de envíos frontend | Pendiente |
+| 11 | Autenticación frontend | Completada |
+| 12 | Gestión de envíos frontend | Siguiente |
 | 13 | Detalle de envío frontend | Pendiente |
 | 14 | Tracking público frontend | Pendiente |
 | 15 | Integración y UX | Pendiente |

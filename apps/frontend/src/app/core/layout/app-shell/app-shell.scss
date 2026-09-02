@@ -17,11 +17,25 @@
 
 .nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.25rem;
 }
 
 .nav a.active {
   font-weight: 500;
+}
+
+.user-info {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 0.75rem;
+}
+
+.user-email {
+  display: none;
+  font-size: 0.875rem;
+  opacity: 0.85;
 }
 
 .content {
@@ -33,7 +47,26 @@
 }
 
 @media (min-width: 768px) {
+  .user-email {
+    display: inline;
+  }
+
   .content {
     padding: 2rem 1.5rem 3rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .toolbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 64px;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .user-info {
+    margin-left: 0;
+    width: 100%;
   }
 }

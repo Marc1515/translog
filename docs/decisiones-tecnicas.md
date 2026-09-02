@@ -32,7 +32,11 @@ Lightweight Hexagonal pragmática: separación de capas cuando aporta valor, sin
 
 ## Arquitectura frontend
 
-Componentes standalone, lazy loading por features, servicios HTTP, Route Guard e HTTP Interceptor (se implementarán en fases correspondientes).
+Componentes standalone, lazy loading por features, servicios HTTP, Route Guard e HTTP Interceptor (Fase 11).
+
+## JWT en localStorage (Fase 11)
+
+El token JWT se almacena en `localStorage` por simplicidad de la prueba técnica. En un entorno con requisitos de seguridad superiores podría preferirse otra estrategia (p. ej. cookies HttpOnly), pero queda fuera del alcance de este proyecto.
 
 ## Modelado
 

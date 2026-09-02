@@ -4,7 +4,18 @@
   <nav class="nav">
     <a mat-button routerLink="/shipments" routerLinkActive="active">Envíos</a>
     <a mat-button routerLink="/tracking" routerLinkActive="active">Tracking</a>
+    @if (authService.currentUser()?.role === 'SUPERVISOR') {
+      <a mat-button routerLink="/auth/register" routerLinkActive="active">
+        Registrar usuario
+      </a>
+    }
   </nav>
+  <span class="user-info">
+    @if (authService.currentUser(); as user) {
+      <span class="user-email">{{ user.email }}</span>
+    }
+    <button mat-button type="button" (click)="logout()">Salir</button>
+  </span>
 </mat-toolbar>
 
 <main class="content">

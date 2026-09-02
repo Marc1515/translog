@@ -1,4 +1,4 @@
-.login {
+.register {
   align-items: center;
   box-sizing: border-box;
   display: flex;
@@ -7,47 +7,47 @@
   padding: 1.5rem 1rem;
 }
 
-.login__container {
+.register__container {
   max-width: 420px;
   width: 100%;
 }
 
-.login__brand {
+.register__brand {
   font-size: 1.75rem;
   font-weight: 500;
   margin: 0 0 1.5rem;
   text-align: center;
 }
 
-.login__card {
+.register__card {
   width: 100%;
 }
 
-.login__form {
+.register__form {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   margin-top: 0.5rem;
 }
 
-.login__field {
+.register__field {
   width: 100%;
 }
 
-.login__error {
+.register__error {
   color: var(--mat-sys-error, #b00020);
   font-size: 0.875rem;
   margin: 0.25rem 0 0.5rem;
 }
 
-.login__submit {
+.register__submit {
   align-self: stretch;
   margin-top: 0.5rem;
   min-height: 2.75rem;
 }
 
 @media (min-width: 768px) {
-  .login__brand {
+  .register__brand {
     font-size: 2rem;
   }
 }
