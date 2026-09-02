@@ -7,8 +7,8 @@
 | 2 | Monorepo y documentación | Completada |
 | 3 | Base de datos (PostgreSQL, Prisma) | Completada |
 | 4 | Autenticación y autorización | Completada |
-| 5 | Núcleo de envíos | Siguiente |
-| 6 | Reglas de dominio de envíos | Pendiente |
+| 5 | Núcleo de envíos | Completada |
+| 6 | Reglas de dominio de envíos | Siguiente |
 | 7 | Tracking público | Pendiente |
 | 8 | Asignación de vehículos (FFD) | Pendiente |
 | 9 | Calidad del backend | Pendiente |

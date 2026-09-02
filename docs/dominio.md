@@ -31,6 +31,7 @@ Estados activos pueden cancelarse → `CANCELED`.
 
 ## Reglas
 
-- Al crear un Shipment se genera un `ShipmentEvent` inicial con estado `CREATED`.
+- Al crear un Shipment se genera automáticamente un `trackingCode` con formato `ENV-YYYYMMDD-XXXX`.
+- Al crear un Shipment se genera un `ShipmentEvent` inicial con estado `CREATED` (transacción atómica).
 - `DELETE /shipments/:id` es cancelación lógica (conserva historial).
 - `deliveredAt` se establece al pasar a `DELIVERED`.
