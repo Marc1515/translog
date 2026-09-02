@@ -120,7 +120,7 @@ pnpm lint:backend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 16 completada (Docker Compose y CI). Siguiente fase: bonus vehículos, dashboard, CSV (Fase 17).
+**Estado actual:** Fase 17 completada (interfaz de asignación de vehículos). Siguiente fase: revisión independiente (Fase 18).
 
 ## Desarrollo local
 
@@ -136,4 +136,4 @@ Arrancar la SPA:
 pnpm dev:frontend   # http://localhost:4200
 ```
 
-Rutas base: `/auth/login`, `/auth/register` (solo SUPERVISOR), `/shipments` (autenticado), `/tracking` (público). La URL de la API se configura en `apps/frontend/src/environments/environment.ts`.
+Rutas base: `/auth/login`, `/auth/register` (solo SUPERVISOR), `/shipments` (autenticado, incluye `/shipments/assign-vehicles` para propuesta FFD), `/tracking` (público). La URL de la API se configura en `apps/frontend/src/environments/environment.ts`.

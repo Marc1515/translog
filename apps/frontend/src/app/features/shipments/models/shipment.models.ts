@@ -68,3 +68,27 @@ export interface UpdateShipmentStatusRequest {
   location: string;
   notes?: string;
 }
+
+export interface AssignVehiclesRequest {
+  shipmentIds: string[];
+  vehicleCapacity: number;
+}
+
+export interface AssignedVehicleShipment {
+  shipmentId: string;
+  trackingCode: string;
+  weight: number;
+}
+
+export interface VehicleAssignment {
+  vehicleNumber: number;
+  shipments: AssignedVehicleShipment[];
+  totalWeight: number;
+  remainingCapacity: number;
+}
+
+export interface AssignVehiclesResponse {
+  vehicles: VehicleAssignment[];
+  totalVehicles: number;
+  totalShipments: number;
+}

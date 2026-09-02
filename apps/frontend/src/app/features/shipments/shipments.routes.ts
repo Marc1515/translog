@@ -21,6 +21,13 @@ export const SHIPMENTS_ROUTES: Routes = [
           ),
       },
       {
+        path: 'assign-vehicles',
+        loadComponent: () =>
+          import('./pages/vehicle-assignment-page/vehicle-assignment-page').then(
+            (m) => m.VehicleAssignmentPage,
+          ),
+      },
+      {
         path: ':id',
         loadComponent: () =>
           import('./pages/shipment-detail-page/shipment-detail-page').then(

@@ -1,7 +1,10 @@
 <section class="shipments">
   <header class="shipments__header">
     <h1 class="shipments__title">Gestión de envíos</h1>
-    <a mat-flat-button color="primary" routerLink="/shipments/new">Nuevo envío</a>
+    <div class="shipments__header-actions">
+      <a mat-stroked-button routerLink="/shipments/assign-vehicles">Asignar vehículos</a>
+      <a mat-flat-button color="primary" routerLink="/shipments/new">Nuevo envío</a>
+    </div>
   </header>
 
   <div class="shipments__toolbar">

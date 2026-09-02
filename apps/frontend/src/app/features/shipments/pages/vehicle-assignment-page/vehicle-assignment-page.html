@@ -1,0 +1,164 @@
+<section class="vehicle-assignment">
+  <header class="vehicle-assignment__header">
+    <h1 class="vehicle-assignment__title">Asignación de vehículos</h1>
+    <a mat-stroked-button routerLink="/shipments">Volver al listado</a>
+  </header>
+
+  <p class="vehicle-assignment__intro">
+    Los envíos se distribuyen mediante First Fit Decreasing (FFD), priorizando
+    primero los de mayor peso. FFD es una heurística y no garantiza siempre el
+    número óptimo de vehículos.
+  </p>
+
+  <mat-card class="vehicle-assignment__card">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="vehicle-assignment__form">
+        <mat-form-field appearance="outline" class="vehicle-assignment__capacity">
+          <mat-label>Capacidad por vehículo (kg)</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="vehicleCapacity"
+            step="0.01"
+            min="0.01"
+            inputmode="decimal"
+          />
+          @if (
+            form.controls.vehicleCapacity.touched &&
+            form.controls.vehicleCapacity.hasError('required')
+          ) {
+            <mat-error>La capacidad es obligatoria</mat-error>
+          }
+          @if (
+            form.controls.vehicleCapacity.touched &&
+            form.controls.vehicleCapacity.hasError('min')
+          ) {
+            <mat-error>Introduce una capacidad positiva</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="vehicle-assignment__shipments-header">
+          <h2 class="vehicle-assignment__subtitle">Envíos disponibles en almacén</h2>
+          @if (hasWarehouseShipments && !loadingList) {
+            <mat-checkbox
+              [checked]="allLoadedSelected"
+              [indeterminate]="someLoadedSelected"
+              (change)="toggleSelectAll($event.checked)"
+            >
+              Seleccionar todos
+            </mat-checkbox>
+          }
+        </div>
+
+        @if (showTruncationNote && !loadingList) {
+          <p class="vehicle-assignment__note">
+            Se muestran los primeros 100 envíos disponibles.
+          </p>
+        }
+
+        @if (loadingList) {
+          <div class="vehicle-assignment__loading">
+            <mat-spinner diameter="40" aria-label="Cargando envíos" />
+          </div>
+        } @else if (listErrorMessage) {
+          <div class="vehicle-assignment__feedback vehicle-assignment__feedback--error">
+            <p role="alert">{{ listErrorMessage }}</p>
+            <button mat-stroked-button type="button" (click)="loadWarehouseShipments()">
+              Reintentar
+            </button>
+          </div>
+        } @else if (!hasWarehouseShipments) {
+          <div class="vehicle-assignment__feedback">
+            <p>No hay envíos disponibles en almacén para asignar.</p>
+          </div>
+        } @else {
+          <ul class="vehicle-assignment__list">
+            @for (shipment of shipments; track shipment.id) {
+              <li class="vehicle-assignment__item">
+                <mat-checkbox
+                  [checked]="isSelected(shipment.id)"
+                  (change)="toggleShipment(shipment.id, $event.checked)"
+                >
+                  <span class="vehicle-assignment__item-content">
+                    <span class="vehicle-assignment__tracking">{{ shipment.trackingCode }}</span>
+                    <span class="vehicle-assignment__recipient">{{ shipment.recipientName }}</span>
+                    <span class="vehicle-assignment__weight">{{ shipment.weight }} kg</span>
+                    <span class="vehicle-assignment__destination">{{
+                      shipment.destinationAddress
+                    }}</span>
+                  </span>
+                </mat-checkbox>
+              </li>
+            }
+          </ul>
+        }
+
+        @if (selectionErrorMessage) {
+          <p class="vehicle-assignment__error" role="alert">{{ selectionErrorMessage }}</p>
+        }
+
+        @if (submitErrorMessage) {
+          <p class="vehicle-assignment__error" role="alert">{{ submitErrorMessage }}</p>
+        }
+
+        <div class="vehicle-assignment__actions">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="submitting || loadingList || !hasWarehouseShipments"
+          >
+            @if (submitting) {
+              <mat-spinner diameter="20" aria-label="Calculando asignación" />
+            } @else {
+              Asignar vehículos
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  @if (assignmentResult && lastVehicleCapacity !== null) {
+    <section class="vehicle-assignment__result" aria-live="polite">
+      <h2 class="vehicle-assignment__subtitle">Resultado de la asignación</h2>
+
+      <p class="vehicle-assignment__proposal-note">
+        Esta asignación es una propuesta y no modifica los envíos.
+      </p>
+
+      <div class="vehicle-assignment__summary">
+        <p><strong>Vehículos necesarios:</strong> {{ assignmentResult.totalVehicles }}</p>
+        <p><strong>Envíos asignados:</strong> {{ assignmentResult.totalShipments }}</p>
+        <p>
+          <strong>Capacidad por vehículo:</strong> {{ lastVehicleCapacity }} kg
+        </p>
+      </div>
+
+      <div class="vehicle-assignment__vehicles">
+        @for (vehicle of assignmentResult.vehicles; track vehicle.vehicleNumber) {
+          <mat-card class="vehicle-assignment__vehicle-card">
+            <mat-card-header>
+              <mat-card-title>Vehículo {{ vehicle.vehicleNumber }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                <strong>Carga:</strong>
+                {{ vehicle.totalWeight }} / {{ lastVehicleCapacity }} kg
+              </p>
+              <p><strong>Capacidad restante:</strong> {{ vehicle.remainingCapacity }} kg</p>
+              <p class="vehicle-assignment__shipments-label"><strong>Envíos:</strong></p>
+              <ul class="vehicle-assignment__assigned-list">
+                @for (assigned of vehicle.shipments; track assigned.shipmentId) {
+                  <li>
+                    {{ assigned.trackingCode }} — {{ assigned.weight }} kg
+                  </li>
+                }
+              </ul>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    </section>
+  }
+</section>

@@ -1,0 +1,188 @@
+.vehicle-assignment {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100%;
+}
+
+.vehicle-assignment__header {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.vehicle-assignment__title {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.vehicle-assignment__intro {
+  color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.6));
+  margin: 0;
+}
+
+.vehicle-assignment__card,
+.vehicle-assignment__vehicle-card {
+  width: 100%;
+}
+
+.vehicle-assignment__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vehicle-assignment__capacity {
+  max-width: 20rem;
+  width: 100%;
+}
+
+.vehicle-assignment__shipments-header {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.vehicle-assignment__subtitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.vehicle-assignment__note {
+  color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.6));
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.vehicle-assignment__loading {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0;
+}
+
+.vehicle-assignment__feedback {
+  color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.6));
+  padding: 1rem 0;
+  text-align: center;
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  &--error p {
+    color: var(--mat-sys-error, #b00020);
+  }
+}
+
+.vehicle-assignment__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vehicle-assignment__item {
+  border: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.12));
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.vehicle-assignment__item-content {
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+.vehicle-assignment__tracking {
+  font-weight: 500;
+}
+
+.vehicle-assignment__recipient,
+.vehicle-assignment__destination {
+  color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.6));
+  font-size: 0.875rem;
+}
+
+.vehicle-assignment__weight {
+  font-size: 0.875rem;
+}
+
+.vehicle-assignment__error {
+  color: var(--mat-sys-error, #b00020);
+  margin: 0;
+}
+
+.vehicle-assignment__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.vehicle-assignment__result {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vehicle-assignment__proposal-note {
+  color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.6));
+  margin: 0;
+}
+
+.vehicle-assignment__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+.vehicle-assignment__vehicles {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.vehicle-assignment__shipments-label {
+  margin: 0.75rem 0 0.25rem;
+}
+
+.vehicle-assignment__assigned-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .vehicle-assignment__title {
+    font-size: 2rem;
+  }
+
+  .vehicle-assignment__item-content {
+    grid-template-columns: minmax(8rem, auto) 1fr auto;
+  }
+
+  .vehicle-assignment__destination {
+    grid-column: 2 / -1;
+  }
+
+  .vehicle-assignment__vehicles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .vehicle-assignment__vehicles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

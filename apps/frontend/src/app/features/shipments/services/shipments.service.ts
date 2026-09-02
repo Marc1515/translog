@@ -3,6 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_URL } from '../../../core/config/api.config';
 import {
+  AssignVehiclesRequest,
+  AssignVehiclesResponse,
   CreateShipmentRequest,
   GetShipmentsParams,
   Shipment,
@@ -46,5 +48,14 @@ export class ShipmentsService {
 
   cancelShipment(id: string): Observable<Shipment> {
     return this.http.delete<Shipment>(`${API_URL}/shipments/${id}`);
+  }
+
+  assignVehicles(
+    data: AssignVehiclesRequest,
+  ): Observable<AssignVehiclesResponse> {
+    return this.http.post<AssignVehiclesResponse>(
+      `${API_URL}/shipments/assign-vehicles`,
+      data,
+    );
   }
 }

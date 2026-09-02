@@ -53,3 +53,7 @@ No se crean tablas `Vehicle`, `Warehouse` ni `Address`. El dominio se limita a `
 No garantiza el número mínimo de vehículos (no es solución óptima). Complejidad aproximada: **O(n log n)** por la ordenación y **O(n²)** en el peor caso por la búsqueda first-fit.
 
 La API devuelve una propuesta con `vehicleNumber` (1-based), pesos redondeados a 2 decimales y totales globales. No hay persistencia de vehículos ni cambio de estado en los envíos.
+
+## Alcance Fase 17
+
+Se priorizó la interfaz FFD frente a dashboard/CSV para mantener el alcance acorde a una prueba estimada de 4–5 horas.

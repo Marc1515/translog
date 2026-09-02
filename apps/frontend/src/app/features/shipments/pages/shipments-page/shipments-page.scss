@@ -18,6 +18,12 @@
   margin: 0;
 }
 
+.shipments__header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .shipments__toolbar {
   display: flex;
   flex-wrap: wrap;
