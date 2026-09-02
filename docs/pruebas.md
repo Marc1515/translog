@@ -34,6 +34,7 @@ Cubrir reglas de negocio relevantes. No se persigue cobertura total.
 El workflow `.github/workflows/ci.yml` se ejecuta en `push` y `pull_request` y valida:
 
 - instalación reproducible (`pnpm install --frozen-lockfile`);
+- generación del cliente Prisma (`pnpm db:generate`);
 - lint del backend (`pnpm lint:backend`);
 - tests del backend (`pnpm test:backend`);
 - tests del frontend (`pnpm --filter frontend test`);
