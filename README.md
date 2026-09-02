@@ -43,13 +43,15 @@ Endpoints:
 
 El supervisor inicial se crea con `pnpm db:seed`.
 
-## Envíos (Fase 5)
+## Envíos (Fases 5–6)
 
 Todos los endpoints requieren JWT (`Authorization: Bearer <token>`).
 
 - `POST /shipments` — crear envío (genera `trackingCode`, estado inicial `CREATED`)
 - `GET /shipments` — listado paginado (`page`, `limit`, filtro opcional `status`)
 - `GET /shipments/:id` — detalle con historial de eventos
+- `PATCH /shipments/:id/status` — cambiar estado (transiciones validadas, crea `ShipmentEvent`)
+- `DELETE /shipments/:id` — cancelación lógica (`CANCELED`, conserva historial)
 
 ## Comandos
 
@@ -64,4 +66,4 @@ pnpm build          # compila backend y frontend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 5 completada (núcleo de envíos). Siguiente fase: reglas de dominio de envíos (Fase 6).
+**Estado actual:** Fase 6 completada (reglas de dominio de envíos). Siguiente fase: tracking público (Fase 7).

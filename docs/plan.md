@@ -8,8 +8,8 @@
 | 3 | Base de datos (PostgreSQL, Prisma) | Completada |
 | 4 | Autenticación y autorización | Completada |
 | 5 | Núcleo de envíos | Completada |
-| 6 | Reglas de dominio de envíos | Siguiente |
-| 7 | Tracking público | Pendiente |
+| 6 | Reglas de dominio de envíos | Completada |
+| 7 | Tracking público | Siguiente |
 | 8 | Asignación de vehículos (FFD) | Pendiente |
 | 9 | Calidad del backend | Pendiente |
 | 10 | Base del frontend Angular | Pendiente |

@@ -20,6 +20,6 @@
 
 **Backend:** módulos por dominio (`auth`, `shipments`, futuro `tracking`) con separación ligera presentation / application / domain / infrastructure cuando aporta claridad.
 
-**ShipmentsModule (Fase 5):** `presentation` (controller + DTOs), `application` (service), `domain` (generador de trackingCode), `infrastructure` (repository Prisma).
+**ShipmentsModule:** `presentation` (controller + DTOs), `application` (service), `domain` (trackingCode, máquina de estados), `infrastructure` (repository Prisma).
 
 **Frontend:** carpetas por feature (`auth`, `shipments`, `tracking`) con lazy loading en rutas.

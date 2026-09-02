@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Query,
   Req,
@@ -16,6 +18,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard.js';
 import { ShipmentsService } from '../application/shipments.service.js';
 import { CreateShipmentDto } from './dto/create-shipment.dto.js';
 import { ListShipmentsQueryDto } from './dto/list-shipments-query.dto.js';
+import { UpdateShipmentStatusDto } from './dto/update-shipment-status.dto.js';
 
 @Controller('shipments')
 @UseGuards(JwtAuthGuard)
@@ -36,5 +39,19 @@ export class ShipmentsController {
   @Get(':id')
   findById(@Param('id', ParseUUIDPipe) id: string) {
     return this.shipmentsService.findById(id);
+  }
+
+  @Patch(':id/status')
+  updateStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: UpdateShipmentStatusDto,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.shipmentsService.updateStatus(id, dto, req.user.id);
+  }
+
+  @Delete(':id')
+  cancel(@Param('id', ParseUUIDPipe) id: string, @Req() req: AuthenticatedRequest) {
+    return this.shipmentsService.cancel(id, req.user.id);
   }
 }

@@ -23,15 +23,22 @@
 
 ## Estados de envío
 
-`CREATED` → `IN_WAREHOUSE` → `IN_TRANSIT` → `OUT_FOR_DELIVERY` → `DELIVERED` | `RETURNED`
+Flujo principal:
 
-Estados activos pueden cancelarse → `CANCELED`.
+`CREATED` → `IN_WAREHOUSE` → `IN_TRANSIT` → `OUT_FOR_DELIVERY` → `DELIVERED`
 
-**Terminales:** `DELIVERED`, `RETURNED`, `CANCELED`.
+Desde `OUT_FOR_DELIVERY` también puede pasar a `RETURNED` (intento de entrega fallido, terminal).
+
+Estados activos (`CREATED`, `IN_WAREHOUSE`, `IN_TRANSIT`, `OUT_FOR_DELIVERY`) pueden cancelarse mediante `DELETE /shipments/:id` → `CANCELED`.
+
+**Terminales:** `DELIVERED`, `RETURNED`, `CANCELED` — no admiten más transiciones.
+
+La lógica de transiciones está centralizada en `shipment-status-transitions.ts`. `PATCH /shipments/:id/status` gestiona el flujo logístico; `DELETE` gestiona la cancelación.
 
 ## Reglas
 
 - Al crear un Shipment se genera automáticamente un `trackingCode` con formato `ENV-YYYYMMDD-XXXX`.
 - Al crear un Shipment se genera un `ShipmentEvent` inicial con estado `CREATED` (transacción atómica).
-- `DELETE /shipments/:id` es cancelación lógica (conserva historial).
-- `deliveredAt` se establece al pasar a `DELIVERED`.
+- Cada cambio de estado vía `PATCH` crea un `ShipmentEvent` con usuario, ubicación y notas (transacción atómica).
+- `DELETE /shipments/:id` es cancelación lógica: establece `CANCELED` y crea evento asociado (conserva historial).
+- `deliveredAt` se establece automáticamente al pasar a `DELIVERED`.

@@ -63,6 +63,12 @@ export class ShipmentsRepository {
     ]);
   }
 
+  findById(id: string) {
+    return this.prisma.shipment.findUnique({
+      where: { id },
+    });
+  }
+
   findByIdWithEvents(id: string) {
     return this.prisma.shipment.findUnique({
       where: { id },
@@ -78,6 +84,54 @@ export class ShipmentsRepository {
           },
         },
       },
+    });
+  }
+
+  updateStatusWithEvent(params: {
+    shipmentId: string;
+    status: ShipmentStatus;
+    userId: string;
+    location: string;
+    notes?: string;
+    deliveredAt?: Date;
+  }) {
+    return this.prisma.$transaction(async (tx) => {
+      return tx.shipment.update({
+        where: { id: params.shipmentId },
+        data: {
+          status: params.status,
+          ...(params.deliveredAt !== undefined && {
+            deliveredAt: params.deliveredAt,
+          }),
+          events: {
+            create: {
+              status: params.status,
+              userId: params.userId,
+              location: params.location,
+              notes: params.notes ?? null,
+            },
+          },
+        },
+      });
+    });
+  }
+
+  cancelWithEvent(params: { shipmentId: string; userId: string }) {
+    return this.prisma.$transaction(async (tx) => {
+      return tx.shipment.update({
+        where: { id: params.shipmentId },
+        data: {
+          status: ShipmentStatus.CANCELED,
+          events: {
+            create: {
+              status: ShipmentStatus.CANCELED,
+              userId: params.userId,
+              location: null,
+              notes: null,
+            },
+          },
+        },
+      });
     });
   }
 }

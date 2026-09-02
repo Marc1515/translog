@@ -3,10 +3,15 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma, Shipment } from '../../generated/prisma/client.js';
+import { Prisma, Shipment, ShipmentStatus } from '../../generated/prisma/client.js';
 import { generateTrackingCode } from '../domain/tracking-code.generator.js';
+import {
+  canCancelShipment,
+  isValidTransition,
+} from '../domain/shipment-status-transitions.js';
 import { CreateShipmentDto } from '../presentation/dto/create-shipment.dto.js';
 import { ListShipmentsQueryDto } from '../presentation/dto/list-shipments-query.dto.js';
+import { UpdateShipmentStatusDto } from '../presentation/dto/update-shipment-status.dto.js';
 import { ShipmentsRepository } from '../infrastructure/shipments.repository.js';
 
 const MAX_TRACKING_CODE_ATTEMPTS = 5;
@@ -84,6 +89,55 @@ export class ShipmentsService {
     }
 
     return this.toShipmentDetailResponse(shipment);
+  }
+
+  async updateStatus(id: string, dto: UpdateShipmentStatusDto, userId: string) {
+    const shipment = await this.shipmentsRepository.findById(id);
+
+    if (!shipment) {
+      throw new NotFoundException();
+    }
+
+    if (!isValidTransition(shipment.status, dto.status)) {
+      throw new ConflictException(
+        `No se puede cambiar el envío de ${shipment.status} a ${dto.status}.`,
+      );
+    }
+
+    const deliveredAt =
+      dto.status === ShipmentStatus.DELIVERED ? new Date() : undefined;
+
+    const updated = await this.shipmentsRepository.updateStatusWithEvent({
+      shipmentId: id,
+      status: dto.status,
+      userId,
+      location: dto.location,
+      notes: dto.notes,
+      deliveredAt,
+    });
+
+    return this.toShipmentResponse(updated);
+  }
+
+  async cancel(id: string, userId: string) {
+    const shipment = await this.shipmentsRepository.findById(id);
+
+    if (!shipment) {
+      throw new NotFoundException();
+    }
+
+    if (!canCancelShipment(shipment.status)) {
+      throw new ConflictException(
+        `No se puede cancelar un envío en estado ${shipment.status}.`,
+      );
+    }
+
+    const updated = await this.shipmentsRepository.cancelWithEvent({
+      shipmentId: id,
+      userId,
+    });
+
+    return this.toShipmentResponse(updated);
   }
 
   private isTrackingCodeConflict(error: unknown): boolean {
