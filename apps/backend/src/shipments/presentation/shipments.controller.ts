@@ -13,6 +13,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { AuthenticatedRequest } from '../../auth/types/authenticated-request.type.js';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard.js';
 import { ShipmentsService } from '../application/shipments.service.js';
@@ -21,6 +22,8 @@ import { CreateShipmentDto } from './dto/create-shipment.dto.js';
 import { ListShipmentsQueryDto } from './dto/list-shipments-query.dto.js';
 import { UpdateShipmentStatusDto } from './dto/update-shipment-status.dto.js';
 
+@ApiTags('Shipments')
+@ApiBearerAuth()
 @Controller('shipments')
 @UseGuards(JwtAuthGuard)
 export class ShipmentsController {

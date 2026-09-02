@@ -66,6 +66,19 @@ Endpoint autenticado:
 
 - `POST /shipments/assign-vehicles` — calcula una distribución First Fit Decreasing a partir de envíos en `IN_WAREHOUSE`. Los vehículos no se persisten.
 
+## Backend (Fase 9)
+
+Arrancar la API:
+
+```bash
+pnpm dev:backend    # http://localhost:3000
+```
+
+Documentación interactiva Swagger: [http://localhost:3000/docs](http://localhost:3000/docs)
+
+- Endpoints internos (`/auth/register`, `/shipments/**`): autenticación JWT Bearer (botón **Authorize** en Swagger).
+- `POST /auth/login` y `GET /tracking/:trackingCode`: públicos.
+
 ## Comandos
 
 ```bash
@@ -73,10 +86,13 @@ pnpm install
 pnpm dev:backend    # http://localhost:3000
 pnpm dev:frontend   # http://localhost:4200
 pnpm build          # compila backend y frontend
+pnpm build:backend
+pnpm test:backend
+pnpm lint:backend
 ```
 
 ## Documentación
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 8 completada (asignación FFD). Siguiente fase: calidad del backend (Fase 9).
+**Estado actual:** Fase 9 completada (calidad del backend). Siguiente fase: base del frontend Angular (Fase 10).
