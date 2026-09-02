@@ -32,6 +32,17 @@ translog/
 
 Comandos útiles adicionales: `pnpm db:generate`, `pnpm db:studio`.
 
+## Autenticación (Fase 4)
+
+Variables adicionales en `apps/backend/.env`: `JWT_SECRET`, `JWT_EXPIRES_IN` (ver `.env.example`).
+
+Endpoints:
+
+- `POST /auth/login` — público
+- `POST /auth/register` — requiere JWT con rol `SUPERVISOR`
+
+El supervisor inicial se crea con `pnpm db:seed`.
+
 ## Comandos
 
 ```bash
@@ -45,4 +56,4 @@ pnpm build          # compila backend y frontend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 3 completada (PostgreSQL + Prisma). Siguiente fase: autenticación y autorización (Fase 4).
+**Estado actual:** Fase 4 completada (autenticación JWT y roles). Siguiente fase: núcleo de envíos (Fase 5).
