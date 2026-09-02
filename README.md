@@ -95,6 +95,8 @@ docker compose up --build
 
 Credenciales supervisor demo (defaults Docker): `supervisor@translog.local` / `Supervisor123!`
 
+En una base de datos Docker nueva, el seed crea además 6 envíos demo en distintos estados (incluye dos en `IN_WAREHOUSE` de 60 kg y 40 kg, útiles para probar la interfaz FFD con capacidad 100 kg).
+
 Parar servicios:
 
 ```bash
