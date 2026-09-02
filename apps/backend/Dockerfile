@@ -12,7 +12,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY apps/backend apps/backend
 
-RUN pnpm build:backend
+RUN DATABASE_URL="postgresql://build:build@localhost:5432/translog?schema=public" pnpm build:backend
 
 WORKDIR /app/apps/backend
 
