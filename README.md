@@ -21,6 +21,16 @@ translog/
 
 - Node.js LTS
 - pnpm
+- PostgreSQL (Fase 3)
+
+## Base de datos (Fase 3)
+
+1. Copia `apps/backend/.env.example` a `apps/backend/.env` y ajusta los valores.
+2. Asegúrate de tener PostgreSQL en ejecución y accesible con la `DATABASE_URL` configurada.
+3. Ejecuta las migraciones: `pnpm db:migrate`
+4. Ejecuta el seed del supervisor: `pnpm db:seed`
+
+Comandos útiles adicionales: `pnpm db:generate`, `pnpm db:studio`.
 
 ## Comandos
 
@@ -35,4 +45,4 @@ pnpm build          # compila backend y frontend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 2 completada (monorepo y documentación base). La base de datos se configurará en la Fase 3.
+**Estado actual:** Fase 3 en curso (PostgreSQL + Prisma configurados; pendiente aplicar migración y seed con credenciales locales válidas).

@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  OPERATOR
+  SUPERVISOR
+}
+
+enum ShipmentStatus {
+  CREATED
+  IN_WAREHOUSE
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  RETURNED
+  CANCELED
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  createdShipments Shipment[]      @relation("ShipmentCreator")
+  shipmentEvents   ShipmentEvent[]
+}
+
+model Shipment {
+  id                 String         @id @default(uuid()) @db.Uuid
+  trackingCode       String         @unique
+  originAddress      String
+  destinationAddress String
+  recipientName      String
+  contactPhone       String?
+  weight             Decimal        @db.Decimal(10, 2)
+  status             ShipmentStatus @default(CREATED)
+  deliveredAt        DateTime?
+  createdById        String         @db.Uuid
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  createdBy User            @relation("ShipmentCreator", fields: [createdById], references: [id])
+  events    ShipmentEvent[]
+
+  @@index([status])
+}
+
+model ShipmentEvent {
+  id         String         @id @default(uuid()) @db.Uuid
+  shipmentId String         @db.Uuid
+  status     ShipmentStatus
+  userId     String         @db.Uuid
+  location   String?
+  notes      String?
+  createdAt  DateTime       @default(now())
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@index([shipmentId, createdAt])
+}

@@ -10,7 +10,11 @@
     "build:frontend": "pnpm --filter frontend build",
     "build": "pnpm build:backend && pnpm build:frontend",
     "lint:backend": "pnpm --filter backend lint",
-    "test:backend": "pnpm --filter backend test"
+    "test:backend": "pnpm --filter backend test",
+    "db:generate": "pnpm --filter backend prisma:generate",
+    "db:migrate": "pnpm --filter backend prisma:migrate:dev",
+    "db:seed": "pnpm --filter backend prisma:seed",
+    "db:studio": "pnpm --filter backend prisma:studio"
   },
   "keywords": [],
   "author": "",

@@ -1,15 +1,15 @@
 # Despliegue
 
-## Actual (Fase 2)
+## Actual (Fase 3)
 
 Ejecución local:
 
 - Backend: `pnpm dev:backend` → puerto 3000
 - Frontend: `pnpm dev:frontend` → puerto 4200
-
-## Fase 3
-
-PostgreSQL en local (instalación manual o contenedor puntual).
+- PostgreSQL: instalación local manual (servicio en ejecución)
+- Variables: `apps/backend/.env` (ver `.env.example`)
+- Migraciones: `pnpm db:migrate`
+- Seed supervisor: `pnpm db:seed`
 
 ## Fase 16 (bonus)
 

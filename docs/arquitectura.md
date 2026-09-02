@@ -8,7 +8,7 @@
 
 - **Frontend** (`apps/frontend`): SPA con componentes standalone, lazy loading por features (futuro) y servicios HTTP.
 - **Backend** (`apps/backend`): API REST con arquitectura Lightweight Hexagonal pragmática (se introducirá al implementar dominio, sin carpetas vacías anticipadas).
-- **Datos:** PostgreSQL con Prisma (Fase 3).
+- **Datos:** PostgreSQL con Prisma (Fase 3). Modelos: `User`, `Shipment`, `ShipmentEvent`. Acceso mediante `PrismaModule` / `PrismaService` en el backend.
 
 ## Principios
 

@@ -20,6 +20,12 @@ Un repositorio con `apps/backend` y `apps/frontend`. Sin Nx ni Turborepo.
 | Frontend | Angular 17+ standalone, Angular Material, Reactive Forms |
 | BD | PostgreSQL |
 
+## Prisma (Fase 3)
+
+- ORM: Prisma 7 con `prisma.config.ts`, driver adapter `@prisma/adapter-pg` y cliente generado en `apps/backend/src/generated/prisma`.
+- Seed idempotente del primer `SUPERVISOR` mediante variables `SUPERVISOR_EMAIL` y `SUPERVISOR_PASSWORD`.
+- Sin tablas adicionales (`Vehicle`, `Warehouse`, `Address`, `Role`, `Status`).
+
 ## Arquitectura backend
 
 Lightweight Hexagonal pragmática: separación de capas cuando aporta valor, sin sobreabstracción ni carpetas vacías anticipadas.
