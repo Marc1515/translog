@@ -1,1 +1,171 @@
-<h1>Detalle de envío</h1>
+<div class="detail">
+  <header class="detail__header">
+    <a mat-button routerLink="/shipments">Volver a envíos</a>
+  </header>
+
+  @if (loadingInitial) {
+    <div class="detail__loading">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else if (errorMessage) {
+    <div class="detail__feedback detail__feedback--error">
+      <p>{{ errorMessage }}</p>
+      @if (notFound) {
+        <a mat-stroked-button routerLink="/shipments">Volver a envíos</a>
+      } @else {
+        <button mat-stroked-button type="button" (click)="retry()">
+          Reintentar
+        </button>
+      }
+    </div>
+  } @else if (shipment) {
+    <h1 class="detail__title">Detalle de envío</h1>
+
+    <mat-card class="detail__card">
+      <mat-card-header>
+        <mat-card-title>{{ shipment.trackingCode }}</mat-card-title>
+        <mat-card-subtitle>{{ getStatusLabel(shipment.status) }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <dl class="detail__info">
+          <div class="detail__info-row">
+            <dt>Destinatario</dt>
+            <dd>{{ shipment.recipientName }}</dd>
+          </div>
+          <div class="detail__info-row">
+            <dt>Teléfono</dt>
+            <dd>{{ formatPhone(shipment.contactPhone) }}</dd>
+          </div>
+          <div class="detail__info-row">
+            <dt>Peso</dt>
+            <dd>{{ shipment.weight }} kg</dd>
+          </div>
+          <div class="detail__info-row">
+            <dt>Origen</dt>
+            <dd>{{ shipment.originAddress }}</dd>
+          </div>
+          <div class="detail__info-row">
+            <dt>Destino</dt>
+            <dd>{{ shipment.destinationAddress }}</dd>
+          </div>
+          <div class="detail__info-row">
+            <dt>Creado</dt>
+            <dd>{{ shipment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+          </div>
+          @if (shipment.deliveredAt) {
+            <div class="detail__info-row">
+              <dt>Entregado</dt>
+              <dd>{{ shipment.deliveredAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+            </div>
+          }
+        </dl>
+      </mat-card-content>
+    </mat-card>
+
+    <section class="detail__section">
+      <h2 class="detail__section-title">Historial</h2>
+      <ol class="timeline">
+        @for (event of shipment.events; track event.id) {
+          <li class="timeline__item">
+            <div class="timeline__marker" aria-hidden="true"></div>
+            <div class="timeline__content">
+              <p class="timeline__status">{{ getStatusLabel(event.status) }}</p>
+              <p class="timeline__date">
+                {{ event.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+              </p>
+              @if (hasEventLocation(event)) {
+                <p class="timeline__location">{{ event.location }}</p>
+              }
+              @if (hasEventNotes(event)) {
+                <p class="timeline__notes">{{ event.notes }}</p>
+              }
+              <p class="timeline__user">
+                Responsable:
+                {{ event.responsibleUser.email }}
+                ({{ getRoleLabel(event.responsibleUser.role) }})
+              </p>
+            </div>
+          </li>
+        }
+      </ol>
+    </section>
+
+    @if (showStatusForm) {
+      <section class="detail__section">
+        <h2 class="detail__section-title">Actualizar estado</h2>
+        <mat-card class="detail__card">
+          <mat-card-content>
+            <form
+              class="detail__form"
+              [formGroup]="statusForm"
+              (ngSubmit)="onSubmitStatusUpdate()"
+            >
+              <mat-form-field class="detail__field">
+                <mat-label>Nuevo estado</mat-label>
+                <mat-select formControlName="status" required>
+                  @for (status of allowedTransitions; track status) {
+                    <mat-option [value]="status">
+                      {{ getStatusLabel(status) }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="detail__field">
+                <mat-label>Ubicación</mat-label>
+                <input matInput formControlName="location" required />
+              </mat-form-field>
+
+              <mat-form-field class="detail__field">
+                <mat-label>Notas</mat-label>
+                <textarea matInput formControlName="notes" rows="3"></textarea>
+              </mat-form-field>
+
+              @if (updateErrorMessage) {
+                <p class="detail__inline-error">{{ updateErrorMessage }}</p>
+              }
+
+              <div class="detail__actions">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  type="submit"
+                  [disabled]="loadingUpdate"
+                >
+                  @if (loadingUpdate) {
+                    Actualizando…
+                  } @else {
+                    Actualizar estado
+                  }
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </section>
+    } @else if (isTerminal) {
+      <p class="detail__terminal">Este envío se encuentra en un estado final.</p>
+    }
+
+    @if (canCancel) {
+      <section class="detail__section detail__section--cancel">
+        @if (cancelErrorMessage) {
+          <p class="detail__inline-error">{{ cancelErrorMessage }}</p>
+        }
+        <button
+          mat-stroked-button
+          class="detail__cancel-btn"
+          type="button"
+          [disabled]="loadingCancel"
+          (click)="onCancelShipment()"
+        >
+          @if (loadingCancel) {
+            Cancelando…
+          } @else {
+            Cancelar envío
+          }
+        </button>
+      </section>
+    }
+  }
+</div>

@@ -6,7 +6,9 @@ import {
   CreateShipmentRequest,
   GetShipmentsParams,
   Shipment,
+  ShipmentDetail,
   ShipmentsListResponse,
+  UpdateShipmentStatusRequest,
 } from '../models/shipment.models';
 
 @Injectable({ providedIn: 'root' })
@@ -29,5 +31,20 @@ export class ShipmentsService {
 
   createShipment(data: CreateShipmentRequest): Observable<Shipment> {
     return this.http.post<Shipment>(`${API_URL}/shipments`, data);
+  }
+
+  getShipmentById(id: string): Observable<ShipmentDetail> {
+    return this.http.get<ShipmentDetail>(`${API_URL}/shipments/${id}`);
+  }
+
+  updateShipmentStatus(
+    id: string,
+    data: UpdateShipmentStatusRequest,
+  ): Observable<Shipment> {
+    return this.http.patch<Shipment>(`${API_URL}/shipments/${id}/status`, data);
+  }
+
+  cancelShipment(id: string): Observable<Shipment> {
+    return this.http.delete<Shipment>(`${API_URL}/shipments/${id}`);
   }
 }

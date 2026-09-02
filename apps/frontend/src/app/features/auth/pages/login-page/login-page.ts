@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { getHttpErrorMessage } from '../../utils/http-error.util';
+import { getHttpErrorMessage } from '../../../../core/utils/http-error.util';
 
 @Component({
   selector: 'app-login-page',

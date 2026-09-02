@@ -33,7 +33,7 @@ src/app/
 ├── core/           # config (apiUrl), layout (AppShell)
 ├── features/
 │   ├── auth/       # login, register, AuthService, guards, interceptor
-│   ├── shipments/  # listado, creación, detalle (placeholder); ShipmentsService
+│   ├── shipments/  # listado, creación, detalle con timeline y transiciones; ShipmentsService
 │   └── tracking/   # /tracking (layout público propio)
 ├── app.routes.ts   # loadChildren por feature
 └── app.config.ts   # Router, HttpClient + interceptor, Material theme
@@ -42,3 +42,5 @@ src/app/
 Rutas principales con lazy loading. Autenticación frontend (Fase 11): JWT en `localStorage`, interceptor `Authorization: Bearer`, guards de navegación; el backend mantiene la autoridad real con JWT Guard y RolesGuard.
 
 **Shipments frontend (Fase 12):** `ShipmentsService` consume `GET /shipments` (paginación y filtro `status` server-side) y `POST /shipments`. Listado con `MatTable` + `MatPaginator`; formulario reactivo de creación en `/shipments/new`. Modelos y tipos en `features/shipments/models/` (sin imports Prisma).
+
+**Detalle de envío frontend (Fase 13):** `/shipments/:id` consume `GET /shipments/:id` (incluye historial con `responsibleUser`), `PATCH /shipments/:id/status` (ubicación obligatoria, notas opcionales) y `DELETE /shipments/:id` (cancelación lógica). Timeline CSS con eventos ordenados; utilidad `shipment-transitions.util.ts` limita transiciones en UI (el backend valida la máquina de estados real). Estados terminales ocultan controles de transición/cancelación.

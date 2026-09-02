@@ -15,7 +15,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
 import { UserRole } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
-import { getHttpErrorMessage } from '../../utils/http-error.util';
+import { getHttpErrorMessage } from '../../../../core/utils/http-error.util';
 
 @Component({
   selector: 'app-register-page',

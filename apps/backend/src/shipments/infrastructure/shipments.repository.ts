@@ -93,6 +93,13 @@ export class ShipmentsRepository {
             location: true,
             notes: true,
             createdAt: true,
+            user: {
+              select: {
+                id: true,
+                email: true,
+                role: true,
+              },
+            },
           },
         },
       },

@@ -42,3 +42,4 @@ La lógica de transiciones está centralizada en `shipment-status-transitions.ts
 - Cada cambio de estado vía `PATCH` crea un `ShipmentEvent` con usuario, ubicación y notas (transacción atómica).
 - `DELETE /shipments/:id` es cancelación lógica: establece `CANCELED` y crea evento asociado (conserva historial).
 - `deliveredAt` se establece automáticamente al pasar a `DELIVERED`.
+- El detalle autenticado (`GET /shipments/:id`) expone el usuario responsable de cada evento (`responsibleUser`: id, email, role). El tracking público (`GET /tracking/:trackingCode`) no expone datos de usuarios ni `contactPhone`.

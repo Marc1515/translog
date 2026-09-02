@@ -45,3 +45,26 @@ export interface GetShipmentsParams {
   limit: number;
   status?: ShipmentStatus;
 }
+
+export interface ShipmentEvent {
+  id: string;
+  status: ShipmentStatus;
+  location: string | null;
+  notes: string | null;
+  createdAt: string;
+  responsibleUser: {
+    id: string;
+    email: string;
+    role: 'OPERATOR' | 'SUPERVISOR';
+  };
+}
+
+export interface ShipmentDetail extends Shipment {
+  events: ShipmentEvent[];
+}
+
+export interface UpdateShipmentStatusRequest {
+  status: ShipmentStatus;
+  location: string;
+  notes?: string;
+}

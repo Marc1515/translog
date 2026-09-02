@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma, Shipment, ShipmentStatus } from '../../generated/prisma/client.js';
+import { Prisma, Shipment, ShipmentStatus, UserRole } from '../../generated/prisma/client.js';
 import { generateTrackingCode } from '../domain/tracking-code.generator.js';
 import {
   canCancelShipment,
@@ -26,6 +26,11 @@ type ShipmentWithEvents = Shipment & {
     location: string | null;
     notes: string | null;
     createdAt: Date;
+    user: {
+      id: string;
+      email: string;
+      role: UserRole;
+    };
   }>;
 };
 
@@ -212,6 +217,7 @@ export class ShipmentsService {
         location: event.location,
         notes: event.notes,
         createdAt: event.createdAt,
+        responsibleUser: event.user,
       })),
     };
   }

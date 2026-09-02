@@ -15,8 +15,8 @@
 | 10 | Base del frontend Angular | Completada |
 | 11 | Autenticación frontend | Completada |
 | 12 | Gestión de envíos frontend | Completada |
-| 13 | Detalle de envío frontend | Siguiente |
-| 14 | Tracking público frontend | Pendiente |
+| 13 | Detalle de envío frontend | Completada |
+| 14 | Tracking público frontend | Siguiente |
 | 15 | Integración y UX | Pendiente |
 | 16 | Bonus: Docker Compose y GitHub Actions | Pendiente |
 | 17 | Bonus: vehículos, dashboard, CSV | Pendiente |
