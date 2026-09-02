@@ -1,87 +1,25 @@
-# Translog
+# TransLog
 
 Sistema de gestión logística de envíos. Prueba técnica Fullstack Junior/Mid.
 
 ## Stack
 
-- **Backend:** NestJS, TypeScript
-- **Frontend:** Angular 17+ (standalone), Angular Material
-- **Base de datos (Fase 3):** PostgreSQL, Prisma
-
-## Estructura
-
-```text
-translog/
-├── apps/backend/    # API REST NestJS
-├── apps/frontend/ # SPA Angular
-└── docs/          # Documentación del proyecto
-```
-
-## Requisitos
-
-- Node.js LTS
+- NestJS, TypeScript
+- Angular 22 (cumple requisito Angular 17+), Angular Material
+- PostgreSQL, Prisma
 - pnpm
-- PostgreSQL (Fase 3)
 
-## Base de datos (Fase 3)
+## Funcionalidades
 
-1. Copia `apps/backend/.env.example` a `apps/backend/.env` y ajusta los valores.
-2. Asegúrate de tener PostgreSQL en ejecución y accesible con la `DATABASE_URL` configurada.
-3. Ejecuta las migraciones: `pnpm db:migrate`
-4. Ejecuta el seed del supervisor: `pnpm db:seed`
-
-Comandos útiles adicionales: `pnpm db:generate`, `pnpm db:studio`.
-
-## Autenticación (Fase 4)
-
-Variables adicionales en `apps/backend/.env`: `JWT_SECRET`, `JWT_EXPIRES_IN` (ver `.env.example`).
-
-Endpoints:
-
-- `POST /auth/login` — público
-- `POST /auth/register` — requiere JWT con rol `SUPERVISOR`
-
-El supervisor inicial se crea con `pnpm db:seed`.
-
-## Envíos (Fases 5–6)
-
-Todos los endpoints requieren JWT (`Authorization: Bearer <token>`).
-
-- `POST /shipments` — crear envío (genera `trackingCode`, estado inicial `CREATED`)
-- `GET /shipments` — listado paginado (`page`, `limit`, filtro opcional `status`)
-- `GET /shipments/:id` — detalle con historial de eventos
-- `PATCH /shipments/:id/status` — cambiar estado (transiciones validadas, crea `ShipmentEvent`)
-- `DELETE /shipments/:id` — cancelación lógica (`CANCELED`, conserva historial)
-- `POST /shipments/assign-vehicles` — propuesta de asignación FFD (sin persistencia)
-
-## Tracking público (Fase 7)
-
-Endpoint público (sin JWT):
-
-- `GET /tracking/:trackingCode` — consulta de envío por código de seguimiento con historial de eventos
-
-## Asignación de vehículos (Fase 8)
-
-Endpoint autenticado:
-
-- `POST /shipments/assign-vehicles` — calcula una distribución First Fit Decreasing a partir de envíos en `IN_WAREHOUSE`. Los vehículos no se persisten.
-
-## Backend (Fase 9)
-
-Arrancar la API:
-
-```bash
-pnpm dev:backend    # http://localhost:3000
-```
-
-Documentación interactiva Swagger: [http://localhost:3000/docs](http://localhost:3000/docs)
-
-- Endpoints internos (`/auth/register`, `/shipments/**`): autenticación JWT Bearer (botón **Authorize** en Swagger).
-- `POST /auth/login` y `GET /tracking/:trackingCode`: públicos.
+- Autenticación JWT con roles (`OPERATOR`, `SUPERVISOR`)
+- Gestión de envíos con máquina de estados y timeline de eventos
+- Tracking público por código de seguimiento
+- Asignación de vehículos con heurística First Fit Decreasing (FFD)
+- Interfaz web para operaciones y propuesta FFD
 
 ## Inicio rápido con Docker
 
-Requisito: Docker y Docker Compose instalados.
+Requisito: Docker y Docker Compose.
 
 ```bash
 docker compose up --build
@@ -95,7 +33,7 @@ docker compose up --build
 
 Credenciales supervisor demo (defaults Docker): `supervisor@translog.local` / `Supervisor123!`
 
-En una base de datos Docker nueva, el seed crea además 6 envíos demo en distintos estados (incluye dos en `IN_WAREHOUSE` de 60 kg y 40 kg, útiles para probar la interfaz FFD con capacidad 100 kg).
+En una base de datos Docker limpia, el seed crea un supervisor demo y **6 envíos demo** en distintos estados (incluye dos en `IN_WAREHOUSE` de 60 kg y 40 kg).
 
 Parar servicios:
 
@@ -106,36 +44,65 @@ docker compose down -v   # elimina también la base de datos del volumen
 
 Las variables `POSTGRES_PASSWORD`, `JWT_SECRET`, `SUPERVISOR_EMAIL` y `SUPERVISOR_PASSWORD` pueden sobrescribirse en el entorno antes de `docker compose up`.
 
-## Comandos
+## Prueba rápida del FFD
 
-```bash
-pnpm install
-pnpm dev:backend    # http://localhost:3000
-pnpm dev:frontend   # http://localhost:4200
-pnpm build          # compila backend y frontend
-pnpm build:backend
-pnpm test:backend
-pnpm lint:backend
-```
-
-## Documentación
-
-La documentación del sistema está centralizada en [`docs/`](docs/).
-
-**Estado actual:** Fase 17 completada (interfaz de asignación de vehículos). Siguiente fase: revisión independiente (Fase 18).
+1. Inicia sesión como supervisor.
+2. Ve a **Asignar vehículos** (`/shipments/assign-vehicles`).
+3. Selecciona los envíos demo de 60 kg y 40 kg.
+4. Indica capacidad **100** kg.
+5. La propuesta debe agruparlos en un solo vehículo.
 
 ## Desarrollo local
 
-- Frontend: `http://localhost:4200`
-- Backend: `http://localhost:3000`
-- CORS: configurable con `CORS_ORIGIN` en `apps/backend/.env` (por defecto `http://localhost:4200`)
-
-## Frontend (Fase 10–11)
-
-Arrancar la SPA:
+1. Copia `apps/backend/.env.example` a `apps/backend/.env` y ajusta los valores.
+2. Asegúrate de tener PostgreSQL en ejecución.
+3. Instala dependencias y prepara la base de datos:
 
 ```bash
+pnpm install
+pnpm db:migrate
+pnpm db:seed
+```
+
+4. Arranca los servicios:
+
+```bash
+pnpm dev:backend    # http://localhost:3000
 pnpm dev:frontend   # http://localhost:4200
 ```
 
-Rutas base: `/auth/login`, `/auth/register` (solo SUPERVISOR), `/shipments` (autenticado, incluye `/shipments/assign-vehicles` para propuesta FFD), `/tracking` (público). La URL de la API se configura en `apps/frontend/src/environments/environment.ts`.
+Variables adicionales en `.env`: `JWT_SECRET`, `JWT_EXPIRES_IN`, `CORS_ORIGIN` (ver `.env.example`).
+
+## Tests y calidad
+
+```bash
+pnpm lint:backend
+pnpm test:backend
+pnpm --filter frontend test
+pnpm build
+```
+
+## API / Swagger
+
+Documentación interactiva: [http://localhost:3000/docs](http://localhost:3000/docs)
+
+- Endpoints internos (`/auth/register`, `/shipments/**`): autenticación JWT Bearer (botón **Authorize**).
+- `POST /auth/login` y `GET /tracking/:trackingCode`: públicos.
+
+## First Fit Decreasing
+
+El endpoint `POST /shipments/assign-vehicles` calcula una propuesta de distribución:
+
+1. Ordena los envíos por peso descendente.
+2. Coloca cada envío en el primer vehículo con capacidad suficiente.
+3. Abre un vehículo nuevo si no cabe en ninguno.
+
+Usa pesos reales de la base de datos y exige que todos los envíos estén en `IN_WAREHOUSE`. Es una heurística: no garantiza el número mínimo de vehículos. La asignación **no se persiste**.
+
+## Decisiones técnicas
+
+Monorepo con pnpm, arquitectura hexagonal ligera en el backend, componentes standalone en Angular, JWT en `localStorage`, seed idempotente. Detalle en [`docs/decisiones-tecnicas.md`](docs/decisiones-tecnicas.md).
+
+## Documentación
+
+Documentación del sistema en [`docs/`](docs/).

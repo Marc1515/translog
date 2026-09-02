@@ -48,8 +48,8 @@ Flujos comprobados en Fase 15 (smoke test manual + API):
 
 - **Autenticación:** login válido/incorrecto, persistencia de sesión tras refresh, logout, redirección sin sesión.
 - **Roles:** SUPERVISOR ve enlace «Registrar usuario» y accede a `/auth/register`; OPERATOR no ve enlace y el guard redirige desde register.
-- **Alta de usuario:** registro de operador, email duplicado (409), supervisor mantiene sesión.
-- **Create shipment:** validaciones, peso ≤ 0, teléfono opcional, Bearer en POST, `trackingCode` y estado `CREATED`.
+- **Alta de usuario:** registro de operador, email duplicado (409 con mensaje descriptivo), supervisor mantiene sesión.
+- **Create shipment:** validaciones, peso entre 0.01 y 99999999.99 kg (máx. 2 decimales), teléfono opcional, Bearer en POST, `trackingCode` y estado `CREATED`.
 - **Listado:** columnas, paginación server-side (`page`/`limit`), filtro por status, reset a página 1 al cambiar filtro, empty state, error con backend caído.
 - **Detalle:** datos del envío, timeline con `responsibleUser.email`, sin `passwordHash`.
 - **Transiciones:** máquina de estados completa, location requerida (incl. solo espacios), reload tras PATCH.
@@ -58,4 +58,5 @@ Flujos comprobados en Fase 15 (smoke test manual + API):
 - **Privacidad:** sin `passwordHash`, `createdById`, `contactPhone` ni `responsibleUser` en respuesta pública.
 - **Responsive:** revisión en 375px, 768px y desktop (overflow tabla, formularios).
 - **Errores HTTP:** mensajes legibles desde `message` del backend (400, 401, 403, 404, 409, conexión caída).
-- **Validación espacios:** tracking, email login/register, campos required de envío y location en transiciones.
+- **Validación espacios:** tracking, email login/register, campos required de envío y location en transiciones (backend rechaza cadenas de solo espacios con 400).
+- **Validación weight (cierre):** peso 0, negativo, >2 decimales, por debajo de 0.01 o por encima de 99999999.99 → 400 (sin 500 por overflow de `Decimal(10,2)`).

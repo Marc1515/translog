@@ -58,7 +58,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException();
+      throw new ConflictException('Ya existe un usuario con ese email.');
     }
 
     const passwordHash = await bcrypt.hash(dto.password, 10);

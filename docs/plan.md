@@ -20,6 +20,4 @@
 | 15 | Integración y UX | Completada |
 | 16 | Bonus: Docker Compose y GitHub Actions | Completada |
 | 17 | Bonus: interfaz de asignación de vehículos | Completada |
-| 18 | Revisión independiente | Siguiente |
-| 19 | Pulido final | Pendiente |
-| 20 | Preparación de entrevista | Pendiente |
+| 18 | Revisión independiente | Completada |
