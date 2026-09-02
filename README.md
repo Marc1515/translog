@@ -79,6 +79,31 @@ Documentación interactiva Swagger: [http://localhost:3000/docs](http://localhos
 - Endpoints internos (`/auth/register`, `/shipments/**`): autenticación JWT Bearer (botón **Authorize** en Swagger).
 - `POST /auth/login` y `GET /tracking/:trackingCode`: públicos.
 
+## Inicio rápido con Docker
+
+Requisito: Docker y Docker Compose instalados.
+
+```bash
+docker compose up --build
+```
+
+| Servicio | URL |
+|----------|-----|
+| Frontend | http://localhost:4200 |
+| API | http://localhost:3000 |
+| Swagger | http://localhost:3000/docs |
+
+Credenciales supervisor demo (defaults Docker): `supervisor@translog.local` / `Supervisor123!`
+
+Parar servicios:
+
+```bash
+docker compose down
+docker compose down -v   # elimina también la base de datos del volumen
+```
+
+Las variables `POSTGRES_PASSWORD`, `JWT_SECRET`, `SUPERVISOR_EMAIL` y `SUPERVISOR_PASSWORD` pueden sobrescribirse en el entorno antes de `docker compose up`.
+
 ## Comandos
 
 ```bash
@@ -95,7 +120,7 @@ pnpm lint:backend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 12 completada (gestión de envíos frontend). Siguiente fase: detalle de envío frontend (Fase 13).
+**Estado actual:** Fase 16 completada (Docker Compose y CI). Siguiente fase: bonus vehículos, dashboard, CSV (Fase 17).
 
 ## Desarrollo local
 

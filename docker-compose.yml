@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: translog
+      POSTGRES_USER: translog
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-translog_local_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U translog -d translog']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: postgresql://translog:${POSTGRES_PASSWORD:-translog_local_password}@postgres:5432/translog?schema=public
+      JWT_SECRET: ${JWT_SECRET:-translog-local-docker-secret}
+      JWT_EXPIRES_IN: 1h
+      CORS_ORIGIN: http://localhost:4200
+      PORT: 3000
+      SUPERVISOR_EMAIL: ${SUPERVISOR_EMAIL:-supervisor@translog.local}
+      SUPERVISOR_PASSWORD: ${SUPERVISOR_PASSWORD:-Supervisor123!}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    ports:
+      - '4200:80'
+
+volumes:
+  postgres_data:

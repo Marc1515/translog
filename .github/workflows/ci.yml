@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/translog?schema=public
+      JWT_SECRET: ci-only-secret
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Backend lint
+        run: pnpm lint:backend
+
+      - name: Backend tests
+        run: pnpm test:backend
+
+      - name: Frontend tests
+        run: pnpm --filter frontend test
+
+      - name: Build
+        run: pnpm build

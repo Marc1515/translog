@@ -18,8 +18,8 @@
 | 13 | Detalle de envío frontend | Completada |
 | 14 | Tracking público frontend | Completada |
 | 15 | Integración y UX | Completada |
-| 16 | Bonus: Docker Compose y GitHub Actions | Siguiente |
-| 17 | Bonus: vehículos, dashboard, CSV | Pendiente |
+| 16 | Bonus: Docker Compose y GitHub Actions | Completada |
+| 17 | Bonus: vehículos, dashboard, CSV | Siguiente |
 | 18 | Revisión independiente | Pendiente |
 | 19 | Pulido final | Pendiente |
 | 20 | Preparación de entrevista | Pendiente |

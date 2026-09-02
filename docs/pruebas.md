@@ -29,6 +29,18 @@ pnpm build:backend
 
 Cubrir reglas de negocio relevantes. No se persigue cobertura total.
 
+## CI (GitHub Actions)
+
+El workflow `.github/workflows/ci.yml` se ejecuta en `push` y `pull_request` y valida:
+
+- instalación reproducible (`pnpm install --frozen-lockfile`);
+- lint del backend (`pnpm lint:backend`);
+- tests del backend (`pnpm test:backend`);
+- tests del frontend (`pnpm --filter frontend test`);
+- build completo (`pnpm build`).
+
+No se levanta PostgreSQL en CI: los tests actuales son unitarios y `prisma generate` usa una `DATABASE_URL` dummy del job.
+
 ## Pruebas de integración
 
 Flujos comprobados en Fase 15 (smoke test manual + API):
