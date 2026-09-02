@@ -95,4 +95,14 @@ pnpm lint:backend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 9 completada (calidad del backend). Siguiente fase: base del frontend Angular (Fase 10).
+**Estado actual:** Fase 10 completada (base del frontend Angular). Siguiente fase: autenticación frontend (Fase 11).
+
+## Frontend (Fase 10)
+
+Arrancar la SPA:
+
+```bash
+pnpm dev:frontend   # http://localhost:4200
+```
+
+Rutas base: `/auth/login`, `/shipments`, `/tracking`. La URL de la API se configura en `apps/frontend/src/environments/environment.ts`.

@@ -1,0 +1,39 @@
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  color: inherit;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.nav {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav a.active {
+  font-weight: 500;
+}
+
+.content {
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 1.5rem 1rem 2rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .content {
+    padding: 2rem 1.5rem 3rem;
+  }
+}
