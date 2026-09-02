@@ -101,7 +101,7 @@ export class ShipmentDetailPage implements OnInit, OnDestroy {
     this.routeSub?.unsubscribe();
   }
 
-  loadShipment(): void {
+  loadShipment(options?: { preserveUpdateError?: boolean }): void {
     if (!this.shipmentId) {
       return;
     }
@@ -111,7 +111,9 @@ export class ShipmentDetailPage implements OnInit, OnDestroy {
     this.notFound = false;
     this.shipment = null;
     this.resetStatusForm();
-    this.updateErrorMessage = null;
+    if (!options?.preserveUpdateError) {
+      this.updateErrorMessage = null;
+    }
     this.cancelErrorMessage = null;
 
     this.shipmentsService
@@ -181,13 +183,24 @@ export class ShipmentDetailPage implements OnInit, OnDestroy {
 
     if (this.statusForm.invalid) {
       this.statusForm.markAllAsTouched();
-      return;
     }
 
     const raw = this.statusForm.getRawValue();
+    const location = raw.location?.trim() ?? '';
+
+    if (!location) {
+      this.statusForm.controls.location.setErrors({ required: true });
+      this.statusForm.controls.location.markAsTouched();
+      return;
+    }
+
+    if (this.statusForm.invalid) {
+      return;
+    }
+
     const payload: UpdateShipmentStatusRequest = {
       status: raw.status as ShipmentStatus,
-      location: raw.location!.trim(),
+      location,
     };
 
     const notes = raw.notes?.trim();
@@ -220,7 +233,7 @@ export class ShipmentDetailPage implements OnInit, OnDestroy {
             'No se pudo actualizar el estado.',
           );
           if (error instanceof HttpErrorResponse && error.status === 409) {
-            this.loadShipment();
+            this.loadShipment({ preserveUpdateError: true });
           }
         },
       });

@@ -109,11 +109,23 @@
                     </mat-option>
                   }
                 </mat-select>
+                @if (
+                  statusForm.controls.status.hasError('required') &&
+                  statusForm.controls.status.touched
+                ) {
+                  <mat-error>El estado es obligatorio</mat-error>
+                }
               </mat-form-field>
 
               <mat-form-field class="detail__field">
                 <mat-label>Ubicación</mat-label>
                 <input matInput formControlName="location" required />
+                @if (
+                  statusForm.controls.location.hasError('required') &&
+                  statusForm.controls.location.touched
+                ) {
+                  <mat-error>La ubicación es obligatoria</mat-error>
+                }
               </mat-form-field>
 
               <mat-form-field class="detail__field">
