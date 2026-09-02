@@ -26,17 +26,19 @@
 
 **Asignación FFD (Fase 8):** `POST /shipments/assign-vehicles` valida envíos en `IN_WAREHOUSE` desde PostgreSQL, convierte pesos `Decimal` a `number` y delega en `first-fit-decreasing.ts` (dominio puro, sin NestJS/Prisma). El resultado es una propuesta calculada; no se persisten vehículos ni se modifica el estado de los envíos. Detalle del algoritmo en [`decisiones-tecnicas.md`](decisiones-tecnicas.md).
 
-**Frontend (Fase 10–11):**
+**Frontend (Fase 10–12):**
 
 ```text
 src/app/
 ├── core/           # config (apiUrl), layout (AppShell)
 ├── features/
 │   ├── auth/       # login, register, AuthService, guards, interceptor
-│   ├── shipments/  # /shipments/** (con AppShell, authGuard)
+│   ├── shipments/  # listado, creación, detalle (placeholder); ShipmentsService
 │   └── tracking/   # /tracking (layout público propio)
 ├── app.routes.ts   # loadChildren por feature
 └── app.config.ts   # Router, HttpClient + interceptor, Material theme
 ```
 
 Rutas principales con lazy loading. Autenticación frontend (Fase 11): JWT en `localStorage`, interceptor `Authorization: Bearer`, guards de navegación; el backend mantiene la autoridad real con JWT Guard y RolesGuard.
+
+**Shipments frontend (Fase 12):** `ShipmentsService` consume `GET /shipments` (paginación y filtro `status` server-side) y `POST /shipments`. Listado con `MatTable` + `MatPaginator`; formulario reactivo de creación en `/shipments/new`. Modelos y tipos en `features/shipments/models/` (sin imports Prisma).

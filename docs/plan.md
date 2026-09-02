@@ -14,8 +14,8 @@
 | 9 | Calidad del backend | Completada |
 | 10 | Base del frontend Angular | Completada |
 | 11 | Autenticación frontend | Completada |
-| 12 | Gestión de envíos frontend | Siguiente |
-| 13 | Detalle de envío frontend | Pendiente |
+| 12 | Gestión de envíos frontend | Completada |
+| 13 | Detalle de envío frontend | Siguiente |
 | 14 | Tracking público frontend | Pendiente |
 | 15 | Integración y UX | Pendiente |
 | 16 | Bonus: Docker Compose y GitHub Actions | Pendiente |

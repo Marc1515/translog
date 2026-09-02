@@ -1,1 +1,82 @@
-<h1>Nuevo envío</h1>
+<section class="shipment-new">
+  <h1 class="shipment-new__title">Nuevo envío</h1>
+
+  <mat-card class="shipment-new__card">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="shipment-new__form">
+        <mat-form-field appearance="outline" class="shipment-new__field">
+          <mat-label>Dirección de origen</mat-label>
+          <input matInput formControlName="originAddress" autocomplete="street-address" />
+          @if (
+            form.controls.originAddress.touched &&
+            form.controls.originAddress.hasError('required')
+          ) {
+            <mat-error>La dirección de origen es obligatoria</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="shipment-new__field">
+          <mat-label>Dirección de destino</mat-label>
+          <input matInput formControlName="destinationAddress" autocomplete="street-address" />
+          @if (
+            form.controls.destinationAddress.touched &&
+            form.controls.destinationAddress.hasError('required')
+          ) {
+            <mat-error>La dirección de destino es obligatoria</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="shipment-new__field">
+          <mat-label>Destinatario</mat-label>
+          <input matInput formControlName="recipientName" autocomplete="name" />
+          @if (
+            form.controls.recipientName.touched &&
+            form.controls.recipientName.hasError('required')
+          ) {
+            <mat-error>El destinatario es obligatorio</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="shipment-new__field">
+          <mat-label>Teléfono de contacto</mat-label>
+          <input matInput type="tel" formControlName="contactPhone" autocomplete="tel" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="shipment-new__field">
+          <mat-label>Peso (kg)</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="weight"
+            step="0.01"
+            min="0.01"
+            inputmode="decimal"
+          />
+          @if (form.controls.weight.touched && form.controls.weight.hasError('required')) {
+            <mat-error>El peso es obligatorio</mat-error>
+          }
+          @if (form.controls.weight.touched && form.controls.weight.hasError('min')) {
+            <mat-error>Introduce un peso positivo</mat-error>
+          }
+        </mat-form-field>
+
+        @if (errorMessage) {
+          <p class="shipment-new__error" role="alert">{{ errorMessage }}</p>
+        }
+
+        <div class="shipment-new__actions">
+          <button mat-stroked-button type="button" (click)="cancel()" [disabled]="loading">
+            Cancelar
+          </button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="loading">
+            @if (loading) {
+              <mat-spinner diameter="20" />
+            } @else {
+              Crear envío
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

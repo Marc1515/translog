@@ -95,7 +95,7 @@ pnpm lint:backend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 11 completada (autenticación frontend). Siguiente fase: gestión de envíos frontend (Fase 12).
+**Estado actual:** Fase 12 completada (gestión de envíos frontend). Siguiente fase: detalle de envío frontend (Fase 13).
 
 ## Desarrollo local
 
