@@ -1,7 +1,117 @@
 <mat-toolbar class="toolbar">
   <a routerLink="/tracking" class="brand">TransLog</a>
+  <span class="toolbar__spacer"></span>
+  <a mat-button routerLink="/auth/login">Acceso empleados</a>
 </mat-toolbar>
 
 <main class="content">
   <h1>Seguimiento de envío</h1>
+
+  <form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <mat-form-field class="search-form__field">
+      <mat-label>Código de seguimiento</mat-label>
+      <input
+        matInput
+        formControlName="trackingCode"
+        placeholder="ENV-20260902-AB12"
+        autocomplete="off"
+      />
+      @if (
+        searchForm.controls.trackingCode.hasError('required') &&
+        searchForm.controls.trackingCode.touched
+      ) {
+        <mat-error>El código de seguimiento es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      class="search-form__submit"
+      [disabled]="loading"
+    >
+      @if (loading) {
+        Buscando…
+      } @else {
+        Buscar
+      }
+    </button>
+  </form>
+
+  @if (loading) {
+    <div class="feedback feedback--loading">
+      <mat-spinner diameter="36" />
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="feedback feedback--error" role="alert">
+      <p>{{ errorMessage }}</p>
+    </div>
+  }
+
+  @if (result) {
+    <section class="result" aria-live="polite">
+      <mat-card class="result__card">
+        <mat-card-header>
+          <mat-card-title>{{ result.trackingCode }}</mat-card-title>
+          <mat-card-subtitle>{{ getStatusLabel(result.status) }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <dl class="result__info">
+            <div class="result__info-row">
+              <dt>Destinatario</dt>
+              <dd>{{ result.recipientName }}</dd>
+            </div>
+            <div class="result__info-row">
+              <dt>Peso</dt>
+              <dd>{{ result.weight }} kg</dd>
+            </div>
+            <div class="result__info-row">
+              <dt>Origen</dt>
+              <dd>{{ result.originAddress }}</dd>
+            </div>
+            <div class="result__info-row">
+              <dt>Destino</dt>
+              <dd>{{ result.destinationAddress }}</dd>
+            </div>
+            <div class="result__info-row">
+              <dt>Fecha de creación</dt>
+              <dd>{{ result.createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+            </div>
+            @if (result.deliveredAt) {
+              <div class="result__info-row">
+                <dt>Fecha de entrega</dt>
+                <dd>{{ result.deliveredAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+              </div>
+            }
+          </dl>
+        </mat-card-content>
+      </mat-card>
+
+      <section class="result__section">
+        <h2 class="result__section-title">Historial</h2>
+        <ol class="timeline">
+          @for (event of result.events; track $index) {
+            <li class="timeline__item">
+              <div class="timeline__marker" aria-hidden="true"></div>
+              <div class="timeline__content">
+                <p class="timeline__status">{{ getStatusLabel(event.status) }}</p>
+                <p class="timeline__date">
+                  {{ event.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                </p>
+                @if (hasEventLocation(event)) {
+                  <p class="timeline__location">{{ event.location }}</p>
+                }
+                @if (hasEventNotes(event)) {
+                  <p class="timeline__notes">{{ event.notes }}</p>
+                }
+              </div>
+            </li>
+          }
+        </ol>
+      </section>
+    </section>
+  }
 </main>
