@@ -45,4 +45,4 @@ pnpm build          # compila backend y frontend
 
 La documentación del sistema está centralizada en [`docs/`](docs/).
 
-**Estado actual:** Fase 3 en curso (PostgreSQL + Prisma configurados; pendiente aplicar migración y seed con credenciales locales válidas).
+**Estado actual:** Fase 3 completada (PostgreSQL + Prisma). Siguiente fase: autenticación y autorización (Fase 4).

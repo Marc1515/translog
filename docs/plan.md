@@ -5,8 +5,8 @@
 | 0 | Análisis de requisitos | Completada |
 | 1 | Diseño del dominio y arquitectura | Completada |
 | 2 | Monorepo y documentación | Completada |
-| 3 | Base de datos (PostgreSQL, Prisma) | Pendiente |
-| 4 | Autenticación y autorización | Pendiente |
+| 3 | Base de datos (PostgreSQL, Prisma) | Completada |
+| 4 | Autenticación y autorización | Siguiente |
 | 5 | Núcleo de envíos | Pendiente |
 | 6 | Reglas de dominio de envíos | Pendiente |
 | 7 | Tracking público | Pendiente |
